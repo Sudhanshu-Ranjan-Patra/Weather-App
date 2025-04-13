@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="card">
+    <div class="card" id="card">
         <div class="search">
             <input type="text" placeholder="Enter city name " spellcheck="false">
             <button><img src="images/search.png" alt=""></button>
@@ -16,30 +16,52 @@
         <div class="error">Invalid City Name</div>
 
         <div class="weather">
-            <img src="images/rain.png" class="weather-icon">
+            <img src="images/rain.png" class="weather-icon" alt="weather icon rain">
             <h1 class="temp">22°C</h1>
             <h2 class="city">Bhubaneswar</h2>
 
             <div class="details">
-                <div class="col">
-                    <img src="images/humidity.png">
-                    <div>
-                        <p class="humidity">50%</p>
-                        <p class="hum">Humidity</p>
+                    <div class="col">
+                        <img src="/images/humidity.png" alt="humidity">
+                        <div>
+                            <p class="humidity">50%</p>
+                            <p class="hum">Humidity</p>
+                        </div>
                     </div>
-                </div>
-                <div class="col">
-                    <img src="images/wind.png">
-                    <div>
-                        <p class="wind">25 km/h</p>
-                        <p class="win">Wind speed</p>
+                    <div class="col">
+                        <img src="images/wind.png" alt="weather icon windS">
+                        <div>
+                            <p class="wind">25 km/h</p>
+                            <p class="win">Wind speed</p>
+                        </div>
                     </div>
-                </div>
             </div>
         </div>
         
     </div>
+    <script>
+        const card = document.getElementById("card");
 
+        card.addEventListener("mousemove", (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left; // x position within the card
+            const y = e.clientY - rect.top;  // y position within the card
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            // calculate rotation values
+            const rotateX = ((y - centerY) / centerY) * 10; // rotate up/down
+            const rotateY = ((x - centerX) / centerX) * 8; // rotate left/right
+
+            card.style.transform = `rotateX(${-rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+        card.style.transform = "rotateX(0deg) rotateY(0deg) scale(1)";
+        });
+    </script>
+    
     <script>
         const apiKey = "e23358e3c4c2969a6e698af7623ef645";
         const apiUrl = "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
@@ -66,6 +88,8 @@
             document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
             document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
             document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+            // document.querySelector(".pressure").innerHTML = (data.main.pressure / 1013.25).toFixed(4) + "atm";
+            // document.querySelector(".gust").innerHTML = data.wind.gust + "mph";
 
 
             if(data.weather[0].main === "Clouds")
