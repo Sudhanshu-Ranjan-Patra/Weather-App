@@ -68,7 +68,7 @@ body{
     margin-top: 30px;
 }
 .weather-icon:hover{
-    animation: rotate 5s linear infinite;
+    animation: rotate 1s linear infinite;
 }
 
 @keyframes rotate {
@@ -76,7 +76,7 @@ body{
         transform: rotate(0deg);
     }
     25% {
-        transform: rotate(10deg);
+        transform: rotate(360deg);
     }
     50% {
         transform: rotate(0deg);
